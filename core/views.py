@@ -13,7 +13,8 @@ def index(request):
 
 @login_required(login_url='signin')
 def settings(request):
-    user_profile = Profile.objects.get(user=request.user)
+    user_profile = None
+    # return render(request, 'setting.html', {'user_profile': user_profile})
 
     if request.method == 'POST':
 
@@ -26,6 +27,7 @@ def settings(request):
             user_profile.bio = bio
             user_profile.location = location
             user_profile.save()
+
         if request.FILES.get('image') != None:
             image = request.FILES.get('image')
             bio = request.POST['bio']
@@ -73,7 +75,6 @@ def signup(request):
 
 
 def signin(request):
-
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -89,7 +90,7 @@ def signin(request):
 
     else:
         return render(request, 'signin.html')
-    
+
 
 @login_required(login_url='signin')
 def logout(request):
